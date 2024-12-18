@@ -1,5 +1,6 @@
 from ftplib import FTP
 import os
+from loguru import logger
 
 
 class FTPUploader:
@@ -25,14 +26,17 @@ class FTPUploader:
         Подключается к FTP-серверу.
         """
         try:
-            print(f"Подключение к FTP-серверу {self.host}:{self.port}...")
+            logger.info(f"Подключение к FTP-серверу {self.host}:{self.port}...")
             self.ftp.connect(self.host, self.port)
             self.ftp.login(self.username, self.password)
-            print(f"Успешное подключение к {self.host}")
+            logger.info(f"Успешное подключение к {self.host}")
         except Exception as e:
+            logger.error(f"Ошибка подключения к FTP-серверу: {e}")
             raise ConnectionError(f"Ошибка подключения к FTP-серверу: {e}")
 
     def upload_file(self, file_path, remote_dir="/"):
+        logger.info(f'{remote_dir = }')
+        logger.info(remote_dir == "/PHOTO/INBOX/SHOOTS/BEZ_AVTORA/KSP_018175")
         """
         Загружает файл на FTP-сервер.
         :param file_path: Локальный путь к файлу.
@@ -41,6 +45,7 @@ class FTPUploader:
         try:
             self.ftp.cwd(remote_dir)  # Переход в нужный каталог на сервере
         except Exception:
+            logger.error(f"Удаленный каталог {remote_dir} не найден.")
             raise FileNotFoundError(f"Удаленный каталог {remote_dir} не найден.")
 
         file_name = os.path.basename(file_path)
@@ -90,7 +95,7 @@ if __name__ == "__main__":
     try:
         ftp_uploader.connect()
         test_files = [
-            "/Users/evgeniy/Downloads/KSP_018174_01733_1h.jpg",  # Замените на пути к вашим тестовым файлам
+            "/Users/evgeniy/Downloads/prevue/2024_КЛКЛИНКОВ-3647_цв_гор.JPG",  # Замените на пути к вашим тестовым файлам
             # "example2.jpeg"
         ]
         ftp_uploader.upload_files(test_files, remote_dir="/PHOTO/INBOX/SHOOTS/BEZ_AVTORA/KSP_018175")
