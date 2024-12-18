@@ -19,7 +19,8 @@ class EmailHandler:
 
         self.config = Configuration(
             server=os.environ.get('exchange_server'),
-            credentials=self.credentials
+            credentials=self.credentials,
+
         )
 
         try:
