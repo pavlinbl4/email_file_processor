@@ -4,12 +4,20 @@ import time
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from loguru import logger
+import os
+import sys
 
-from config import CHECK_INTERVAL, DOWNLOAD_DIR
+from config import DOWNLOAD_DIR
 from modules.email_handler import EmailHandler
 from modules.file_processor import FileProcessor
 from modules.ftp_uploader import FTPUploader
 from modules.text_processor import TextProcessor
+
+
+# Получаем путь к директории скрипта
+script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+log_file_path = os.path.join(script_dir, "kommersant_mail.log")
+logger.add(log_file_path, format="{time} {level} {message}", level="INFO")
 
 
 def main():
@@ -44,7 +52,7 @@ def main():
 
         # Скачиваем вложения
         attachments = email_handler.download_attachments(email, DOWNLOAD_DIR)
-        print(f"Скачаны файлы: {attachments}")
+        logger.info(f"Скачаны файлы: {attachments}")
 
         # извлекаю текст из html письма
         soup = BeautifulSoup(email.body, 'html.parser')
@@ -58,7 +66,7 @@ def main():
             logger.info(f'{file = }')
             # Проверяем, является ли файл изображением
             if not file_processor.is_image(file):
-                print(f"Пропущен файл: {file} (не является изображением)")
+                logger.info(f"Пропущен файл: {file} (не является изображением)")
                 continue
 
             #Конвертируем файл в JPEG, если это необходимо
@@ -69,13 +77,13 @@ def main():
 
             # Загружаем файл на FTP
             ftp_uploader.connect()
-            ftp_uploader.upload_files([processed_file], remote_dir="/PHOTO/INBOX/SHOOTS/BEZ_AVTORA/KSP_018175")
+            ftp_uploader.upload_files([processed_file],
+                                      remote_dir="/PHOTO/INBOX/SHOOTS/BEZ_AVTORA/KSP_018175")
 
         # Отмечаем письмо как прочитанное
-        email_handler.mark_as_read(email)
+        # email_handler.mark_as_read(email)
 
-    # print(f"Ожидание {CHECK_INTERVAL} секунд до следующей проверки...")
-    # logger.info(f'{count = }')
+
     logger.info(time.strftime("%H:%M:%S", time.localtime()))
         # time.sleep(CHECK_INTERVAL)
         # count += 1
