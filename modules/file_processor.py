@@ -1,4 +1,5 @@
 import os
+from venv import logger
 
 import exiftool
 from PIL import Image
@@ -44,10 +45,10 @@ class FileProcessor:
             with Image.open(file_path) as img:
                 rgb_image = img.convert('RGB')  # Конвертируем в RGB для совместимости
                 rgb_image.save(jpeg_file_path, 'JPEG')
-                print(f"Файл {file_path} конвертирован в JPEG: {jpeg_file_path}")
+                logger.info(f"Файл {file_path} конвертирован в JPEG: {jpeg_file_path}")
             return jpeg_file_path
         except Exception as e:
-            print(f"Ошибка при конвертации файла {file_path}: {e}")
+            logger.error(f"Ошибка при конвертации файла {file_path}: {e}")
             return None
 
     @staticmethod
@@ -68,9 +69,9 @@ class FileProcessor:
 
                 )
 
-            print(f"Добавлены метаданные в файл {file_path}: {caption}")
+            logger.info(f"Добавлены метаданные в файл {file_path}: {caption}")
         except Exception as e:
-            print(f"Ошибка при добавлении метаданных в файл {file_path}: {e}")
+            logger.error(f"Ошибка при добавлении метаданных в файл {file_path}: {e}")
 
 
 # Пример использования
