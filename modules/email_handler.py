@@ -32,6 +32,7 @@ class EmailHandler:
             )
 
         except ErrorNonExistentMailbox:
+            logger.error("Не удалось подключиться к серверу. Проверьте учетные данные.")
             raise ValueError("Не удалось подключиться к серверу. Проверьте учетные данные.")
 
     def check_mailbox(self, from_addresses=None):
