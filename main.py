@@ -1,18 +1,16 @@
 import os
+import sys
 import time
 
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from loguru import logger
-import os
-import sys
 
 from config import DOWNLOAD_DIR
 from modules.email_handler import EmailHandler
 from modules.file_processor import FileProcessor
 from modules.ftp_uploader import FTPUploader
 from modules.text_processor import TextProcessor
-
 
 # Получаем путь к директории скрипта
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -66,7 +64,7 @@ def main():
             logger.info(f'{file = }')
             # Проверяем, является ли файл изображением
             if not file_processor.is_image(file):
-                logger.info(f"Пропущен файл: {file} (не является изображением)")
+                logger.info(f"Загрузка отменена: {file} (не является изображением)")
                 continue
 
             #Конвертируем файл в JPEG, если это необходимо
@@ -85,8 +83,7 @@ def main():
 
 
     logger.info(time.strftime("%H:%M:%S", time.localtime()))
-        # time.sleep(CHECK_INTERVAL)
-        # count += 1
+
 
 
 
