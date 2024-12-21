@@ -15,7 +15,7 @@ from modules.text_processor import TextProcessor
 # Получаем путь к директории скрипта
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 log_file_path = os.path.join(script_dir, "kommersant_mail.log")
-logger.add(log_file_path, format="{time} {level} {message}", level="INFO")
+logger.add(log_file_path, format="{time} {level} {message}", level="INFO", retention="1 day")
 
 
 def main():
@@ -58,7 +58,7 @@ def main():
 
         # Извлекаем текст письма и обрабатываем
         clean_text = text_processor.extract_clean_text(email_text)
-        # print(f'{clean_text = }')
+        logger.info(f'{clean_text = }')
 
         for file in attachments:
             logger.info(f'{file = }')
@@ -79,7 +79,7 @@ def main():
                                       remote_dir="/PHOTO/INBOX/SHOOTS/BEZ_AVTORA/KSP_018175")
 
         # Отмечаем письмо как прочитанное
-        # email_handler.mark_as_read(email)
+        email_handler.mark_as_read(email)
 
 
     logger.info(time.strftime("%H:%M:%S", time.localtime()))
