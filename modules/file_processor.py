@@ -1,8 +1,9 @@
 import os
-from venv import logger
+
 
 import exiftool
 from PIL import Image
+from loguru import logger
 
 
 class FileProcessor:
@@ -64,6 +65,7 @@ class FileProcessor:
                 et.execute(
                     '-XMP:Label= Purple',
                     f'-XMP:Description = {caption}'.encode("utf-8"),
+                    f'-IPTC:Caption-Abstract = {caption}'.encode("utf-8"),
                     '-overwrite_original',
                     file_path.encode('utf-8')
 
