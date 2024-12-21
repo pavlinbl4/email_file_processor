@@ -50,9 +50,9 @@ class FTPUploader:
 
         file_name = os.path.basename(file_path)
         with open(file_path, "rb") as file:
-            print(f"Загрузка файла {file_name} в каталог {remote_dir}...")
+            logger.info(f"Загрузка файла {file_name} в каталог {remote_dir}...")
             self.ftp.storbinary(f"STOR {file_name}", file)
-            print(f"Файл {file_name} успешно загружен.")
+            logger.info(f"Файл {file_name} успешно загружен.")
 
     def upload_files(self, file_paths, remote_dir="/"):
         """
@@ -64,9 +64,9 @@ class FTPUploader:
             try:
                 self.upload_file(file_path, remote_dir)
                 os.remove(file_path)  # Удаляем файл после успешной загрузки
-                print(f"Локальный файл {file_path} удален.")
+                logger.info(f"Локальный файл {file_path} удален.")
             except Exception as e:
-                print(f"Ошибка при загрузке файла {file_path}: {e}")
+                logger.error(f"Ошибка при загрузке файла {file_path}: {e}")
 
     def disconnect(self):
         """
@@ -74,9 +74,9 @@ class FTPUploader:
         """
         try:
             self.ftp.quit()
-            print("Отключение от FTP-сервера.")
+            logger.info("Отключение от FTP-сервера.")
         except Exception as e:
-            print(f"Ошибка при отключении от FTP-сервера: {e}")
+            logger.error(f"Ошибка при отключении от FTP-сервера: {e}")
 
 
 # Пример использования
