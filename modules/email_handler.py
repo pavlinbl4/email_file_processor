@@ -1,11 +1,10 @@
 # pip install exchangelib
 
 import os
+from venv import logger
 
-from dotenv import load_dotenv
 from exchangelib import Credentials, Account, DELEGATE, Configuration
 from exchangelib.errors import ErrorNonExistentMailbox
-from loguru import logger
 
 
 class EmailHandler:
@@ -63,11 +62,11 @@ class EmailHandler:
                         f.write(attachment.content)
                     saved_files.append(file_path)
                 else:
-                    print(f"Ошибка: Вложение {attachment.name} не содержит контента.")
+                    logger.error(f"Ошибка: Вложение {attachment.name} не содержит контента.")
 
             return saved_files
         except Exception as e:
-            print(f"Ошибка при скачивании вложений: {e}")
+            logger.error(f"Ошибка при скачивании вложений: {e}")
             return []
 
     @staticmethod
@@ -77,36 +76,5 @@ class EmailHandler:
         """
         email.is_read = True
         email.save()
-
-
-# Пример использования
-# if __name__ == "__main__":
-#     from config import DOWNLOAD_DIR
-#     logger.info(DOWNLOAD_DIR)
-#     load_dotenv()
-#
-#     email_handler = EmailHandler(
-#         server=os.environ.get('exchange_server'),
-#         username=os.environ.get('exchange_username'),
-#         password=os.environ.get('exchange_password'),
-#         primary_smtp_address=os.environ.get('primary_smtp_address'),
-#
-#     )
-#
-#     print("Проверяем почтовый ящик...")
-#     # emails = email_handler.check_mailbox(from_addresses=["specific.sender@example.com"])
-#     emails = email_handler.check_mailbox()
-#
-#     for email in emails:
-#         print(f"Получено письмо от: {email.sender}")
-#         print(f"Тема: {email.subject}")
-#         print(f"Текст: {email.text_body}")
-#
-#         # Скачиваем вложения
-#         attachments = email_handler.download_attachments(email, DOWNLOAD_DIR)
-#         print(f"Скачаны файлы: {attachments}")
-#
-#         # Отмечаем письмо как прочитанное
-#         # email_handler.mark_as_read(email)
 
 
