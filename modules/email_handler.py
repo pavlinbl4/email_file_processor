@@ -77,5 +77,6 @@ class EmailHandler:
         """
         email.is_read = True
         email.save()
+        logger.info("Письмо отмечено как прочитанное")
 
 
