@@ -1,10 +1,11 @@
 # pip install exchangelib
 
 import os
-from venv import logger
+
 
 from exchangelib import Credentials, Account, DELEGATE, Configuration
 from exchangelib.errors import ErrorNonExistentMailbox
+from loguru import logger
 
 
 class EmailHandler:
