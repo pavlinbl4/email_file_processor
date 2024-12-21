@@ -49,7 +49,7 @@ class TextProcessor:
         # Разделяем текст построчно
         lines = email_text.splitlines()
         cleaned_lines = []
-        # logger.info(cleaned_lines[0])
+        logger.info(f'{email_text = }')
 
         # Удаляем приветствие (первые строки письма)
         greeting_removed = False
