@@ -1,4 +1,5 @@
 import re
+
 from loguru import logger
 
 
@@ -38,10 +39,8 @@ class TextProcessor:
     def extract_clean_text(self, email_text):
         """
         Извлекает содержательный текст из тела письма, удаляя приветствия и подписи.
-        :param email_body: Текст письма.
         :return: Очищенный текст письма.
         """
-
 
         if not email_text:
             return ""
@@ -74,7 +73,7 @@ class TextProcessor:
 
 # Пример использования
 if __name__ == "__main__":
-    email_text = """
+    _email_text = """
 
  
 Доброе солнечное утро, коллеги! Добавьте, пожалуйста, порцию Беглова в наш архив
@@ -90,6 +89,6 @@ if __name__ == "__main__":
     """
 
     processor = TextProcessor()
-    clean_text = processor.extract_clean_text(email_text)
+    clean_text = processor.extract_clean_text(_email_text)
     print("Очищенный текст:")
     print(clean_text)
