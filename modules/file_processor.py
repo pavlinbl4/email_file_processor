@@ -1,6 +1,5 @@
 import os
 
-
 import exiftool
 from PIL import Image
 from loguru import logger
@@ -56,8 +55,8 @@ class FileProcessor:
     def add_xmp_metadata(file_path, caption):
         """
         Добавляет XMP-метаданные в изображение.
+        :type caption: object
         :param file_path: Путь к файлу.
-        :param metadata: Словарь с метаданными для добавления.
         """
         try:
 
@@ -65,7 +64,7 @@ class FileProcessor:
                 et.execute(
                     '-XMP:Label= Purple',
                     f'-XMP:Description = {caption}'.encode("utf-8"),
-                    f'-IPTC:Caption-Abstract = {caption}'.encode("utf-8"),
+                    # f'-IPTC:Caption-Abstract = {caption}'.encode("utf-8"),
                     '-overwrite_original',
                     file_path.encode('utf-8')
 
@@ -89,7 +88,7 @@ if __name__ == "__main__":
 
         # Добавление метаданных
         if jpeg_file:
-            caption = "Lazy dog"
-            processor.add_xmp_metadata(jpeg_file, caption)
+            _caption = "Lazy dog"
+            processor.add_xmp_metadata(jpeg_file, _caption)
     else:
         print(f"{test_file} — это не изображение.")
