@@ -63,8 +63,8 @@ class FTPUploader:
         for file_path in file_paths:
             try:
                 self.upload_file(file_path, remote_dir)
-                os.remove(file_path)  # Удаляем файл после успешной загрузки
-                logger.info(f"Локальный файл {file_path} удален.")
+                # os.remove(file_path)  # Удаляем файл после успешной загрузки
+                # logger.info(f"Локальный файл {file_path} удален.")
             except Exception as e:
                 logger.error(f"Ошибка при загрузке файла {file_path}: {e}")
 
