@@ -1,15 +1,24 @@
 from pathlib import Path
 
 
-def files_in_folder(path_to_folder: str, ):
-    my_path = Path(path_to_folder)
-    only_image_files = (
-            list(my_path.rglob("*.jpg"))
-            + list(my_path.rglob("*.jpeg"))
-            + list(my_path.rglob("*.png"))
-            + list(my_path.rglob("*.gif")))
-    print(only_image_files)
+class FilesInFolder():
+
+    @staticmethod
+    def files_in_folder(path_to_folder: str):
+        my_path = Path(path_to_folder)
+
+        if not my_path.is_dir():
+            raise ValueError(f"Path {path_to_folder} is not a valid directory.")
+
+        extensions = ['.jpg', '.png', '.tif', '.jpeg', '.tiff']
+        image_files = [f for f in my_path.glob("*") if f.suffix.lower() in extensions]
+
+        return image_files
 
 
 if __name__ == '__main__':
-    files_in_folder('/Users/evgeniy/Pictures')
+
+    processor = FilesInFolder()
+    _image_files = processor.files_in_folder('/Users/evgeniy/Pictures')
+    for file in _image_files:
+        print(file)
