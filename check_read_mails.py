@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from loguru import logger
+import chardet
 
 from modules.email_handler import EmailHandler
 
@@ -20,7 +21,14 @@ def main():
 
     emails = email_handler.get_all_mails()
 
+
+
+
+
     for email in emails:
+
+
+    # if chardet.detect(email.body.encode())['encoding'] != 'utf-8':
         logger.info(f"Получено письмо от:\n"
                     f"{email.sender.email_address}\n{email.subject}\n{email.datetime_received} ")
 
