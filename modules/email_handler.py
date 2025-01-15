@@ -51,6 +51,12 @@ class EmailHandler:
 
         return unread_emails
 
+    def get_all_mails(self, from_addresses=None):
+        inbox = self.account.inbox
+        all_emails = inbox.all()
+
+        return all_emails
+
     @staticmethod
     def download_attachments(email, download_dir):
         try:
