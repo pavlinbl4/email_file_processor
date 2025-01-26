@@ -21,16 +21,10 @@ def main():
 
     emails = email_handler.get_all_mails()
 
-
-
-
-
     for email in emails:
-
-
-    # if chardet.detect(email.body.encode())['encoding'] != 'utf-8':
+        # if chardet.detect(email.body.encode())['encoding'] != 'utf-8':
         logger.info(f"Получено письмо от:\n"
-                    f"{email.sender.email_address}\n{email.subject}\n{email.datetime_received} ")
+                    f"{email.sender.email_address}\n{email.subject}\n{email.datetime_received}\n{chardet.detect(email.body.encode())['encoding']}")
 
 
 if __name__ == '__main__':
