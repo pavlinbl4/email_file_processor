@@ -60,6 +60,9 @@ def main():
         clean_text = text_processor.extract_clean_text(email_text)
         logger.info(f'{clean_text = }')
 
+        # извлекаем тему письма
+        email_subject = email.subject
+
         for file in attachments:
             logger.info(f'{file = }')
             # Проверяем, является ли файл изображением
@@ -71,7 +74,7 @@ def main():
             processed_file = file_processor.convert_to_jpeg(file)
 
             # Добавляем XMP-метаданные
-            file_processor.add_xmp_metadata(processed_file, clean_text)
+            file_processor.add_xmp_metadata(processed_file, clean_text, email_subject)
 
             # Загружаем файл на FTP
             ftp_uploader.connect()

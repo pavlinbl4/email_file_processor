@@ -52,7 +52,7 @@ class FileProcessor:
             return None
 
     @staticmethod
-    def add_xmp_metadata(file_path, caption):
+    def add_xmp_metadata(file_path, caption, email_subject):
         """
         Добавляет XMP-метаданные в изображение.
         :type caption: object
@@ -63,7 +63,7 @@ class FileProcessor:
             with exiftool.ExifTool() as et:
                 et.execute(
                     '-XMP:Label= Purple',
-                    f'-XMP:Description = {caption}'.encode("utf-8"),
+                    f'-XMP:Description = {email_subject}\n{caption}'.encode("utf-8"),
                     # f'-IPTC:Caption-Abstract = {caption}'.encode("utf-8"),
                     '-overwrite_original',
                     file_path.encode('utf-8')
